@@ -18,15 +18,26 @@ router.route('/seats/:id').get((req, res) => {
 router.route('/seats').post((req, res) => {
   const { day, seat, client, email } = req.body;
   
-  const newElement = {}
-  newElement.id = uuid();
-  newElement.day = day;
-  newElement.seat = seat;
-  newElement.client = client;
-  newElement.email = email;
+  if(day && seat && client && email) {
+    for(let i = 0; i < db.seats.length; i++) {
+      if(db.seats[i].day == day && db.seats[i].seat == seat) {
+        res.json({message: 'The slot is already taken...'});
+      }
+    }
 
-  db.seats.push(newElement);
-  res.json({message: 'OK'});
+    const newElement = {}
+    newElement.id = uuid();
+    newElement.day = day;
+    newElement.seat = seat;
+    newElement.client = client;
+    newElement.email = email;
+
+    db.seats.push(newElement);
+    res.json({message: 'OK'});
+  } else {
+    res.json({message: 'Please fill all fields!'});
+  }
+  
 });
 
 router.route('/seats/:id').put((req, res) => {
