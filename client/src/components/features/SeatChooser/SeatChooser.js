@@ -3,12 +3,19 @@ import { Button, Progress, Alert } from 'reactstrap';
 
 import './SeatChooser.scss';
 
+import io from 'socket.io-client';
+import { API_URL } from '../../../config';
+
 class SeatChooser extends React.Component {
-  
+
   componentDidMount() {
-    const { loadSeats } = this.props;
+    const { loadSeats, loadSeatsData } = this.props;
     loadSeats();
-    setInterval(loadSeats, 1000 * 60 * 2);
+
+    this.socket = io(API_URL);
+    this.socket.on('seatsUpdated', (seats) => {
+      loadSeatsData(seats);
+    });
   }
 
   isTaken = (seatId) => {
@@ -25,7 +32,6 @@ class SeatChooser extends React.Component {
     else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
     else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
   }
-
 
 
   render() {
