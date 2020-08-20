@@ -8,8 +8,6 @@ const server = app.listen(8000, () => {
   console.log('Server is running on Port:', 8000)
 });
 
-const io = socket(server);
-
 // import routes
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
@@ -34,6 +32,8 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
+
+const io = socket(server);
 
 io.on('connection', (socket) => {
   console.log('New socket');

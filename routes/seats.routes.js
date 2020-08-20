@@ -36,7 +36,7 @@ router.route('/seats').post((req, res) => {
     db.seats.push(newElement);
     
     req.io.emit('seatsUpdated', db.seats);
-    
+
     res.json({message: 'OK'});
     
   } else {
