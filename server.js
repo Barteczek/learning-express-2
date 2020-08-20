@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const db = require('./db');
 const app = express();
 const socket = require('socket.io');
 
@@ -37,9 +38,5 @@ const io = socket(server);
 
 io.on('connection', (socket) => {
   console.log('New socket');
-
-  socket.on('seatsUpdated', () => {
-    console.log('seatsUpdated');
-  });
-
+  socket.emit('seatsUpdated', db.seats);
 });
