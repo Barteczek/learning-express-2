@@ -6,7 +6,7 @@ const app = express();
 const socket = require('socket.io');
 
 // connects our backend code with the database
-mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://john-doe:<password>@cluster0.jt1hf.mongodb.net/<dbname>?retryWrites=true&w=majority', { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
