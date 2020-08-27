@@ -6,7 +6,8 @@ const app = express();
 const socket = require('socket.io');
 
 // connects our backend code with the database
-mongoose.connect('mongodb+srv://john-doe:<password>@cluster0.jt1hf.mongodb.net/<dbname>?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://john-doe:plokmijn1@cluster0.jt1hf.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+
 const db = mongoose.connection;
 
 db.once('open', () => {
@@ -46,8 +47,12 @@ app.get('*', (req, res) => {
 
 const io = socket(server);
 
+
 io.on('connection', (socket) => {
   console.log('New socket');
-  // socket.emit('seatsUpdated', db);
+  
+  socket.on('seatsUpdated', () => {
+    socket.emit('seatsUpdated')
+  });
 });
 

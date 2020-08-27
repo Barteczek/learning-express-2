@@ -17,11 +17,16 @@ class SeatChooser extends React.Component {
   }
 
   componentDidMount() {
-    const { loadSeats, loadSeatsData } = this.props;
+    const { loadSeats } = this.props;
     loadSeats();
-    this.socket.on('seatsUpdated', (seats) => {
-      loadSeatsData(seats);
-      this.seatsCounter(seats);
+
+    setTimeout(() => {
+      this.seatsCounter(this.props.seats)
+    }, 1000)
+    
+    this.socket.on('seatsUpdated', async () => {
+      await loadSeats();
+      this.seatsCounter(this.props.seats)
     });
   }
 
@@ -53,13 +58,7 @@ class SeatChooser extends React.Component {
   render() {
 
     const { prepareSeat } = this;
-    const { requests, loadSeatsData, chosenDay } = this.props;
-
-    this.socket.on('seatsUpdated', (seats) => {
-      loadSeatsData(seats);
-      this.seatsCounter(seats);
-      
-    });
+    const { requests, chosenDay } = this.props;
 
     return (
       <div>
