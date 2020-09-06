@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const socket = require('socket.io');
+const helmet = require('helmet');
 
 // connects our backend code with the database
 mongoose.connect(`mongodb+srv://${process.env.dblogin}:${process.env.dbpass}@cluster0.jt1hf.mongodb.net/NewWaveDB?retryWrites=true&w=majority`, { useNewUrlParser: true });
@@ -20,6 +21,8 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
+app.use(helmet());
 
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
