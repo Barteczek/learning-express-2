@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 const request = chai.request;
 
-describe('GET /concerts/performer/:performer', () => {
+describe('GET /api/concerts/', () => {
 
   before(async () => {
     const testConcertOne = new Concert({ _id: '5d9f1140f10a81216cfd4408', performer: 'John Doe', genre: 'Rock', price: 25, day: 1, image: '/img/uploads/1fsd324fsdg.jpg' });
@@ -22,13 +22,19 @@ describe('GET /concerts/performer/:performer', () => {
     await Concert.deleteMany();
   });
 
-  it('/:performer should return concert by :performer', async () => {
-    const res = await request(server).get('/concerts/performer/John_Doe');
-    console.log(res.body)
+  it('/ should return all concerts', async () => {
+
+    const res = await request(server).get('/api/concerts/');
+    expect(res.status).to.be.equal(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body.length).to.be.equal(2);
+  
+  });
+
+  it('/:id should return one concert by :id ', async () => {
+    const res = await request(server).get('/api/concerts/5d9f1140f10a81216cfd4408');
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.an('object');
     expect(res.body).to.not.be.null;
   });
-
-  
 });

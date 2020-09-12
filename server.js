@@ -9,6 +9,10 @@ const helmet = require('helmet');
 // connects our backend code with the database
 mongoose.connect(`mongodb+srv://${process.env.dblogin}:${process.env.dbpass}@cluster0.jt1hf.mongodb.net/NewWaveDB?retryWrites=true&w=majority`, { useNewUrlParser: true });
 
+//local DB
+// mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
+
 const db = mongoose.connection;
 
 db.once('open', () => {
